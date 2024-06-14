@@ -25,7 +25,7 @@ KeyExample = Tuple[Key, Example]
 class MultiThreadedDatasetBuilder(tfds.core.GeneratorBasedBuilder):
     """DatasetBuilder for example dataset."""
     N_WORKERS = 10                  # number of parallel workers for data conversion
-    MAX_PATHS_IN_MEMORY = 100       # number of paths converted & stored in memory before writing to disk
+    MAX_PATHS_IN_MEMORY = 20       # number of paths converted & stored in memory before writing to disk
                                     # -> the higher the faster / more parallel conversion, adjust based on avilable RAM
                                     # note that one path may yield multiple episodes and adjust accordingly
     PARSE_FCN = None                # needs to be filled with path-to-record-episode parse function
