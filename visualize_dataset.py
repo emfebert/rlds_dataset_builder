@@ -43,16 +43,38 @@ for i, episode in enumerate(ds.take(5)):
     if render_wandb:
         wandb.log({f'image_{i}': wandb.Image(image_strip, caption=caption)})
     else:
-        plt.figure()
-        plt.imshow(image_strip)
-        plt.title(caption)
+        # plt.figure()
+        # plt.imshow(image_strip)
+        # plt.title(caption)
+        pass
 
 # visualize action and state statistics
 actions, states = [], []
 for episode in tqdm.tqdm(ds.take(500)):
+    one_episode_actions = []
+    one_episode_states = []
     for step in episode['steps']:
         actions.append(step['action'].numpy())
         states.append(step['observation']['state'].numpy())
+
+        one_episode_actions.append(step['action'].numpy())
+        one_episode_states.append(step['observation']['state'].numpy())
+
+    plt.figure()
+    for dim in range(7):
+        plt.subplot(1, 7, dim+1)
+        plt.plot(np.array(one_episode_actions)[:, dim])
+        plt.title(f'action dim {dim}') 
+    plt.show()
+
+    plt.figure()
+    for dim in range(6):
+        plt.subplot(1, 7, dim+1)
+        plt.plot(np.array(one_episode_states)[:, dim])
+        plt.title(f'state dim {dim}')
+    plt.show()
+
+
 actions = np.array(actions)
 states = np.array(states)
 action_mean = actions.mean(0)
